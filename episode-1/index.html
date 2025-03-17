@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Vue App</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+    <div id="app" class="bg-white shadow-lg rounded-lg p-6 w-96 text-center">
+        <h1 class="text-3xl font-semibold text-gray-800 mb-4">Vue Countdown</h1>
+
+        <input type="text" v-model="greeting" 
+            class="w-full py-2 px-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-violet-400 outline-none transition" 
+            placeholder="Type here..." required>
+
+        <p class="mt-4 text-lg text-gray-700">
+            {{ greeting }} <span class="text-sm text-amber-500">({{ greeting.length }} characters)</span>
+        </p>
+
+        <!-- Start Countdown Button -->
+        <button @click="startCountdown" 
+            class="mt-4 px-6 py-2 bg-violet-600 text-white font-semibold rounded-lg hover:bg-violet-700 transition">
+            Start Countdown
+        </button>
+
+        <!-- Countdown Timer -->
+        <p v-if="countdown > 0" class="mt-4 text-lg font-semibold text-violet-700">
+            {{ countdown }}
+        </p>
+
+        <!-- Message after countdown -->
+        <p v-if="countdown === 0 && message" class="mt-4 text-lg font-semibold text-green-600 transition-opacity duration-500 opacity-100">
+            {{ message }}
+        </p>
+    </div>
+
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    greeting: "What's Up?",
+                    countdown: 0,
+                    message: ''
+                };
+            },
+
+            methods: {
+                startCountdown() {
+                    this.countdown = 5;
+                    this.message = '';
+                    let timer = setInterval(() => {
+                        if (this.countdown > 0) {
+                            this.countdown--;
+                        } else {
+                            clearInterval(timer);
+                            this.greeting = "Welcome Vue Js!";
+                            this.message = "Message Updated";
+                        }
+                    }, 1000);
+                }
+            }
+        }).mount('#app');
+    </script>
+
+</body>
+</html>
